@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SurveyBasket.Api/SurveyBasket.Api.csproj" />
+  <Project Path="SurveyBasket.Application/SurveyBasket.Application.csproj" />
+  <Project Path="SurveyBasket.Domain/SurveyBasket.Domain.csproj" />
+  <Project Path="SurveyBasket.Infrastructure/SurveyBasket.Infrastructure.csproj" />
+</Solution>
