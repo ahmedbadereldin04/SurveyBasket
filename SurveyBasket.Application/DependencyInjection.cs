@@ -17,18 +17,23 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // Register application services here
-        var mappingconfig = TypeAdapterConfig.GlobalSettings;
+        services.AddScoped<IPollService, PollService>();
 
+
+
+        //Add Mapster ──────────────────────────────────────────────────────────
+        var mappingconfig = TypeAdapterConfig.GlobalSettings;
         mappingconfig.Scan(Assembly.GetExecutingAssembly());
 
         services.AddSingleton<IMapper>(new Mapper(mappingconfig));
 
-        services.AddScoped<IPollService, PollService>();
 
+
+
+        // Add Validation ──────────────────────────────────────────────────────────
         services
             .AddFluentValidationAutoValidation()
-            .AddValidatorsFromAssemblyContaining<PollRequestValidator>();
+            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }
