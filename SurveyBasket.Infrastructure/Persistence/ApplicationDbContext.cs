@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using SurveyBasket.Application.Common.Interfaces;
 using SurveyBasket.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,8 @@ using System.Text;
 
 namespace SurveyBasket.Infrastructure.Persistence;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
+    IdentityDbContext<ApplicationUser>(options), IApplicationDbContext
 {
     public DbSet<Poll> Polls { get; set; }
 

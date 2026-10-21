@@ -1,14 +1,5 @@
-using FluentValidation;
-using Mapster;
-using MapsterMapper;
-using Microsoft.EntityFrameworkCore;
 using SurveyBasket.Application;
-using SurveyBasket.Application.Contracts.Polls;
-using SurveyBasket.Application.Interfaces;
-using SurveyBasket.Application.Services;
 using SurveyBasket.Infrastructure;
-using SurveyBasket.Infrastructure.Persistence;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
