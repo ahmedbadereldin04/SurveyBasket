@@ -27,7 +27,7 @@ public class LoginRequestValidator : AbstractValidator<PollRequest>
         RuleFor(x => x)
             .Must(HasValidDates)
             .WithName(nameof(PollRequest.EndsAt))
-            .WithMessage("{PropertyName} must be greater than or equals start date ");
+            .WithMessage("{PropertyName} must be greater than or equals start date.");
     }
 
 
