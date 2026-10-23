@@ -1,3 +1,4 @@
+using Microsoft.OpenApi;
 using SurveyBasket.Application;
 using SurveyBasket.Infrastructure;
 
@@ -10,7 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddInfrastructure(builder.Configuration)
     .AddApplication();
 
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

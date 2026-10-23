@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using SurveyBasket.Application.Contracts.Authentication;
 using SurveyBasket.Application.Interfaces;
 
 namespace SurveyBasket.Api.Controllers;
@@ -18,4 +19,5 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return authResult is null ? BadRequest("Invalid email/password") : Ok(authResult);
     }
+    
 }
