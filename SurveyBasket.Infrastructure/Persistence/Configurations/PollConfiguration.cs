@@ -20,5 +20,7 @@ public class PollConfiguration : IEntityTypeConfiguration<Poll>
         builder.Property(p => p.Summary)
             .HasMaxLength(1500);
 
+        //builder.Property(x => x.CreatedOn).HasDefaultValueSql("GETDATE()");
+        //builder.Property(x => x.CreatedOn).HasDefaultValue(DateTime.UtcNow);
     }
 }
