@@ -5,7 +5,6 @@ using SurveyBasket.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
 
 // Register Application and Infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration)
@@ -22,6 +21,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
