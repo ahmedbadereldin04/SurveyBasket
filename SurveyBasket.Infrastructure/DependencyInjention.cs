@@ -19,7 +19,7 @@ public static class DependencyInjention
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        // ── Database ──────────────────────────────────────────────────────────
+        // Database ──────────────────────────────────────────────────────────
 
         var connectionString = config.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -29,7 +29,8 @@ public static class DependencyInjention
             options.UseSqlServer(connectionString));
 
 
-        // ── Services ─────────────────────────────────────────────────────────
+
+        // Services ─────────────────────────────────────────────────────────
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
@@ -44,15 +45,14 @@ public static class DependencyInjention
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtProvider, JwtProvider>();
 
-        //Add Options Pattern
-        //services.Configure<JwtOptions>(config.GetSection(JwtOptions.SectionName));
+        // Add Options Pattern
         services.AddOptions<JwtOptions>()
             .Bind(config.GetSection(JwtOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
 
-        //Add JWT Configurations
+        // Add JWT Configurations
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -116,6 +116,19 @@ public static class DependencyInjention
 
         });
 
+
+        // CORS ─────────────────────────────────────────────────────────
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .AllowAnyOrigin();    
+            });
+               
+        });
 
         return services;
     }

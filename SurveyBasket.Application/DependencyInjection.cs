@@ -14,8 +14,13 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
 
+        services.AddControllers();
+
+
         services.AddScoped<IPollService, PollService>();
-       
+
+        
+
         //Add Mapster ──────────────────────────────────────────────────────────
         var mappingconfig = TypeAdapterConfig.GlobalSettings;
         mappingconfig.Scan(Assembly.GetExecutingAssembly());
