@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SurveyBasket.Domain.Entities;
+﻿namespace SurveyBasket.Domain.Entities;
 
 [Owned]
 public class RefreshToken

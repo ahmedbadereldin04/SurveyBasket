@@ -1,7 +1,3 @@
-using Microsoft.OpenApi;
-using SurveyBasket.Application;
-using SurveyBasket.Infrastructure;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

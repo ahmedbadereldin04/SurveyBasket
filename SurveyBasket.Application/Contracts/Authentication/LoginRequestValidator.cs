@@ -1,10 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Identity.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SurveyBasket.Application.Contracts.Authentication;
+﻿namespace SurveyBasket.Application.Contracts.Authentication;
 
 public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {

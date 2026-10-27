@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SurveyBasket.Domain.Entities;
+﻿namespace SurveyBasket.Domain.Entities;
 
 public class AuditableEntity
 {

@@ -1,13 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using Mapster;
-using MapsterMapper;
-using Microsoft.Extensions.DependencyInjection;
-using SurveyBasket.Application.Interfaces;
-using SurveyBasket.Application.Services;
-using System.Reflection;
-
-namespace SurveyBasket.Application;
+﻿namespace SurveyBasket.Application;
 
 public static class DependencyInjection
 {
