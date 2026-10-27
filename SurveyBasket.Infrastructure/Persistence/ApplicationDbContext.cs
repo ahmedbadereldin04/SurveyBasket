@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using SurveyBasket.Application.Common.Interfaces;
-using SurveyBasket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-
-namespace SurveyBasket.Infrastructure.Persistence;
+﻿namespace SurveyBasket.Infrastructure.Persistence;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,IHttpContextAccessor httpContextAccessor) :
     IdentityDbContext<ApplicationUser>(options), IApplicationDbContext

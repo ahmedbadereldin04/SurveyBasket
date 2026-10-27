@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SurveyBasket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SurveyBasket.Infrastructure.Persistence.Configurations;
+﻿namespace SurveyBasket.Infrastructure.Persistence.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {

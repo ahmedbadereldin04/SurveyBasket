@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SurveyBasket.Application.Contracts.Polls;
+﻿namespace SurveyBasket.Application.Contracts.Polls;
 
 public record PollResponse(
     int Id,

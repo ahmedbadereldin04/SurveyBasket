@@ -1,13 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using SurveyBasket.Application.Contracts.Authentication;
-using SurveyBasket.Application.Interfaces;
-using SurveyBasket.Domain.Entities;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-
-namespace SurveyBasket.Infrastructure.Services;
+﻿namespace SurveyBasket.Infrastructure.Services;
 
 public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 {

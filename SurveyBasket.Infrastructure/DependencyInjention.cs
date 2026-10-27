@@ -1,19 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using SurveyBasket.Application.Common.Interfaces;
-using SurveyBasket.Application.Contracts.Authentication;
-using SurveyBasket.Application.Interfaces;
-using SurveyBasket.Domain.Entities;
-using SurveyBasket.Infrastructure.Persistence;
-using SurveyBasket.Infrastructure.Services;
-
-
-namespace SurveyBasket.Infrastructure;
+﻿namespace SurveyBasket.Infrastructure;
 
 public static class DependencyInjention
 {
@@ -112,7 +97,6 @@ public static class DependencyInjention
                         Array.Empty<string>()
                 }
             });
-
 
         });
 
