@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Application.Common.Results;
+﻿using Microsoft.Identity.Client.NativeInterop;
+using SurveyBasket.Application.Common.Results;
 
 namespace SurveyBasket.Controllers;
 
@@ -27,7 +28,7 @@ public class PollsController(IPollService pollService) : ControllerBase
 
         return result.IsSuccess
             ? Ok(result.Value)
-            : Problem(statusCode:StatusCodes.Status404NotFound,title:result.Error.Code,detail:result.Error.Description);
+            : result.ToProblem(StatusCodes.Status404NotFound);
     }
 
     [HttpPost("")]
@@ -47,7 +48,7 @@ public class PollsController(IPollService pollService) : ControllerBase
 
         return result.IsSuccess 
             ? NoContent() 
-            : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+            : result.ToProblem(StatusCodes.Status404NotFound);
     }
 
     [HttpDelete("{id}")]
@@ -57,7 +58,7 @@ public class PollsController(IPollService pollService) : ControllerBase
 
        return result.IsSuccess 
             ? NoContent() 
-            : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+            : result.ToProblem(StatusCodes.Status404NotFound);
     }
     [HttpPut("{id}/togglePublish")]
     public async Task<IActionResult> TogglePublish([FromRoute] int id, CancellationToken cancellationToken)
@@ -66,6 +67,6 @@ public class PollsController(IPollService pollService) : ControllerBase
 
         return result.IsSuccess 
             ? NoContent() 
-            : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+            : result.ToProblem(StatusCodes.Status404NotFound);
     }
 }
