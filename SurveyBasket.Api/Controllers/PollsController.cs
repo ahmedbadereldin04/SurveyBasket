@@ -1,7 +1,4 @@
-﻿using Microsoft.Identity.Client.NativeInterop;
-using SurveyBasket.Application.Common.Results;
-
-namespace SurveyBasket.Controllers;
+﻿namespace SurveyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
