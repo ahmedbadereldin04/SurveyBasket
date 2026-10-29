@@ -114,6 +114,12 @@ public static class DependencyInjention
                
         });
 
+        // Exception Handler ─────────────────────────────────────────────────────────
+        services.AddExceptionHandler<GlobalExecptionHandler>();
+        services.AddProblemDetails();
+
+
+
         return services;
     }
 }

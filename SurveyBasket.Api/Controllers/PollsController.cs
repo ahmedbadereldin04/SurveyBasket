@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Controllers;
+﻿using SurveyBasket.Application.Common.Errors;
+
+namespace SurveyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -33,9 +35,11 @@ public class PollsController(IPollService pollService) : ControllerBase
         , CancellationToken cancellationToken)
     {
 
-        var newPoll = await _pollService.AddAsync(request, cancellationToken);
+        var result = await _pollService.AddAsync(request, cancellationToken);
 
-        return CreatedAtRoute("GetById", new { id = newPoll.Id }, newPoll.Adapt<PollResponse>());
+        return result.IsSuccess
+            ? CreatedAtRoute("GetById", new { id = result.Value.Id }, result.Value)
+            :result.ToProblem(StatusCodes.Status409Conflict);
     }
 
     [HttpPut("{id}")]
@@ -43,9 +47,12 @@ public class PollsController(IPollService pollService) : ControllerBase
     {
         var result = await _pollService.UpdateAsync(id, request, cancellationToken);
 
-        return result.IsSuccess 
-            ? NoContent() 
-            : result.ToProblem(StatusCodes.Status404NotFound);
+        if (result.IsSuccess)
+            return NoContent();
+
+        return result.Error.Equals(PollErrors.DuplicatedPollTitle)
+                 ? result.ToProblem(StatusCodes.Status409Conflict)
+                 : result.ToProblem(StatusCodes.Status404NotFound);
     }
 
     [HttpDelete("{id}")]
