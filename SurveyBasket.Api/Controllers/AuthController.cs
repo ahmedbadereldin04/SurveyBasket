@@ -17,7 +17,7 @@ public class AuthController(IAuthService authService) : ControllerBase
              : result.ToProblem(StatusCodes.Status400BadRequest);
     }
 
-
+                         
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequset request, CancellationToken cancellationToken)
     {

@@ -1,3 +1,5 @@
+using SurveyBasket.Application.Common.Errors;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Register Application and Infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration)
     .AddApplication();
-
 
 var app = builder.Build();
 
@@ -21,6 +22,8 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 app.UseAuthorization();
+
+app.UseExceptionHandler();
 
 app.MapControllers();
 
