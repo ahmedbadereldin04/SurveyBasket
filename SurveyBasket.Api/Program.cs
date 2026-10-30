@@ -1,5 +1,3 @@
-using SurveyBasket.Application.Common.Errors;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +19,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseAuthentication();
+ 
 app.UseAuthorization();
 
 app.UseExceptionHandler();

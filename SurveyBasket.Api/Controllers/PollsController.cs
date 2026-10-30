@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Common.Errors;
-
-namespace SurveyBasket.Controllers;
+﻿namespace SurveyBasket.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
