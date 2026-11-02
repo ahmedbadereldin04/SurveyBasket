@@ -1,3 +1,5 @@
 .vs/ 
 **/bin/ 
 **/obj/ 
+/AGENTS.md
+/SQLQuery2.sql
