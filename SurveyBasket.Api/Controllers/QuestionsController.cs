@@ -10,11 +10,9 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
     [HttpGet("")]
     public async Task<IActionResult> GetAll([FromRoute] int pollId,CancellationToken cancellationToken = default)
     {
-        var result = await _questionService.GetAll(pollId, cancellationToken);
+        var result = await _questionService.GetAllAsync(pollId, cancellationToken);
 
-        return result.IsSuccess
-            ? Ok(result.Value)
-            : result.ToProblem(StatusCodes.Status404NotFound);
+        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 
 
@@ -23,9 +21,7 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
     {
         var result = await _questionService.GetAsync(pollId, id, cancellationToken);
 
-        return result.IsSuccess
-            ? Ok(result.Value)
-            : result.ToProblem(StatusCodes.Status404NotFound);
+        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 
 
@@ -34,12 +30,9 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
     {
         var result = await _questionService.AddAsync(pollId, request, cancellationToken);
 
-        if (result.IsSuccess)
-            return CreatedAtRoute("GetQuestion", new { pollId, result.Value.Id },result.Value);
-
-        return result.Error.Equals(QuestionErrors.DuplicatedQuestionContent)
-                 ? result.ToProblem(StatusCodes.Status409Conflict)
-                 : result.ToProblem(StatusCodes.Status404NotFound);
+        return result.IsSuccess
+            ? CreatedAtRoute("GetQuestion", new { pollId, result.Value.Id },result.Value)
+            : result.ToProblem();
     }
 
     [HttpPut("{id}")]
@@ -47,12 +40,7 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
     {
         var result = await _questionService.UpdateAsync(pollId,id, request, cancellationToken);
 
-        if (result.IsSuccess)
-            return NoContent();
-
-        return result.Error.Equals(QuestionErrors.DuplicatedQuestionContent)
-                 ? result.ToProblem(StatusCodes.Status409Conflict)
-                 : result.ToProblem(StatusCodes.Status404NotFound);
+        return result.IsSuccess ? NoContent() : result.ToProblem();
     }
 
     [HttpPut("{id}/toggleStatus")]
@@ -60,9 +48,7 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
     {
         var result = await _questionService.ToggleStatusAsync(pollId, id, cancellationToken);
 
-        return result.IsSuccess
-            ? NoContent()
-            : result.ToProblem(StatusCodes.Status404NotFound);
+        return result.IsSuccess ? NoContent() : result.ToProblem();
     }
 
 }
