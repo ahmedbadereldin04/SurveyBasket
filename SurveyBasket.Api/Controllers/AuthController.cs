@@ -14,7 +14,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return result.IsSuccess
              ? Ok(result.Value)
-             : result.ToProblem(StatusCodes.Status400BadRequest);
+             : result.ToProblem();
     }
 
                          
@@ -25,7 +25,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return result.IsSuccess
             ? Ok()
-            : result.ToProblem(StatusCodes.Status400BadRequest);
+            : result.ToProblem();
     }
     [HttpPost("revoke-refresh-token")]
     public async Task<IActionResult> Revoke([FromBody] RefreshTokenRequset request, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return result.IsSuccess
             ? Ok()
-            : result.ToProblem(StatusCodes.Status400BadRequest);
+            : result.ToProblem();
     }
     
 }

@@ -2,6 +2,8 @@
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 
+global using System.Security.Claims;
+
 global using SurveyBasket.Api.Extensions;
 
 global using SurveyBasket.Application.Contracts.Authentication;

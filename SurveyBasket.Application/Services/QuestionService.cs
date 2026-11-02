@@ -4,7 +4,7 @@ internal class QuestionService(IApplicationDbContext context) : IQuestionService
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task<Result<IEnumerable<QuestionResponse>>> GetAll(int pollId, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<QuestionResponse>>> GetAllAsync(int pollId, CancellationToken cancellationToken = default)
     {
         var pollIsExists = await _context.Polls.AnyAsync(x => x.Id == pollId, cancellationToken: cancellationToken);
 
@@ -25,6 +25,37 @@ internal class QuestionService(IApplicationDbContext context) : IQuestionService
 
         return Result.Success<IEnumerable<QuestionResponse>>(questions);
     }
+
+    public async Task<Result<IEnumerable<QuestionResponse>>> GetAvailableAsync(int pollId, string userId, CancellationToken cancellationToken = default)
+    {
+        bool hasVoted = await _context.Votes.AnyAsync(x => x.PollId == pollId && x.UserId == userId, cancellationToken: cancellationToken);
+
+        if (hasVoted)
+            return Result.Failure<IEnumerable<QuestionResponse>>(VoteErrors.DuplicatedVote);
+
+        var pollIsExists = await _context.Polls.AnyAsync(x => x.Id == pollId
+            && x.IsPublished && x.StartsAt <= DateOnly.FromDateTime(DateTime.Now) 
+            && x.EndsAt >= DateOnly.FromDateTime(DateTime.Now)
+            ,cancellationToken: cancellationToken);
+
+        if(!pollIsExists)
+            return Result.Failure<IEnumerable<QuestionResponse>>(PollErrors.PollNotFound);
+
+        var questions = await _context.Questions
+            .Where(x => x.PollId == pollId && x.IsActive)
+            .Include(x => x.Answers)
+            .Select(q=>new QuestionResponse(
+                q.Id,
+                q.Content,
+                q.Answers.Where(a=>a.IsActive)
+                .Select(a => new AnswerResponse(a.Id,a.Content))
+                ))
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        return Result.Success<IEnumerable<QuestionResponse>>(questions);
+    }
+
 
     public async Task<Result<QuestionResponse>> GetAsync(int pollId, int id, CancellationToken cancellationToken = default)
     {
