@@ -19,12 +19,20 @@ public class VoteService(IApplicationDbContext context) : IVoteService
         if (!pollIsExists)
             return Result.Failure(PollErrors.PollNotFound);
 
-        var avialableQuestions = await _context.Questions
+        var availableQuestions = await _context.Questions
             .Where(x => x.PollId == pollId && x.IsActive)
             .Select(q => q.Id)
             .ToListAsync(cancellationToken);
 
-        if (!request.Answers.Select(x => x.QuestionId).SequenceEqual(avialableQuestions)) // check if the questions in the request are the same (order and count) as the available questions
+        if (!request.Answers.Select(x => x.QuestionId).SequenceEqual(availableQuestions)) // check if the questions in the request are the same (order and count) as the available questions
+            return Result.Failure(VoteErrors.InvalidQuestions);
+
+        var validAnswers = await _context.Answers
+            .Where(a => a.IsActive && availableQuestions.Contains(a.QuestionId))
+            .Select(a => new { a.Id, a.QuestionId })
+            .ToListAsync(cancellationToken);
+
+        if (request.Answers.Any(r => !validAnswers.Any(a => a.Id == r.AnswerId && a.QuestionId == r.QuestionId)))
             return Result.Failure(VoteErrors.InvalidQuestions);
 
         var vote = new Vote

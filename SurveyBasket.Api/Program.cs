@@ -15,6 +15,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
+
 app.UseHttpsRedirection();
 
 app.UseCors();
@@ -22,8 +24,6 @@ app.UseCors();
 app.UseAuthentication();
  
 app.UseAuthorization();
-
-app.UseExceptionHandler();
 
 app.MapControllers();
 

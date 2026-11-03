@@ -70,7 +70,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,IJwtProvider j
         });
         await _userManager.UpdateAsync(user);
 
-        var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration);
+        var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn * 60, newRefreshToken, refreshTokenExpiration);
         return Result.Success(response);
     }
 

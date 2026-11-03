@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Infrastructure.Services;
+﻿using SurveyBasket.Infrastructure.Options;
+
+namespace SurveyBasket.Infrastructure.Services;
 
 public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 {
@@ -41,6 +43,7 @@ public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = false,
                 ValidateAudience = false,
+                ValidateLifetime = false,
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
 
