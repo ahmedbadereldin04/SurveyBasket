@@ -12,9 +12,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         var result = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
-        return result.IsSuccess
-             ? Ok(result.Value)
-             : result.ToProblem();
+        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 
                          
@@ -23,18 +21,14 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         var result = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-        return result.IsSuccess
-            ? Ok()
-            : result.ToProblem();
+        return result.IsSuccess ? Ok() : result.ToProblem();
     }
     [HttpPost("revoke-refresh-token")]
     public async Task<IActionResult> Revoke([FromBody] RefreshTokenRequset request, CancellationToken cancellationToken)
     {
         var result = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-        return result.IsSuccess
-            ? Ok()
-            : result.ToProblem();
+        return result.IsSuccess ? Ok() : result.ToProblem();
     }
     
 }
