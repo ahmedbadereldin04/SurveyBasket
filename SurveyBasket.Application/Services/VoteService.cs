@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Contracts.Votes;
-
-namespace SurveyBasket.Application.Services;
+﻿namespace SurveyBasket.Application.Services;
 
 public class VoteService(IApplicationDbContext context) : IVoteService
 {
@@ -25,8 +23,10 @@ public class VoteService(IApplicationDbContext context) : IVoteService
             .Where(x => x.PollId == pollId && x.IsActive)
             .Select(q => q.Id)
             .ToListAsync(cancellationToken);
-        if (!request.Answers.Select(x => x.QuestionId).SequenceEqual(avialableQuestions))
+
+        if (!request.Answers.Select(x => x.QuestionId).SequenceEqual(avialableQuestions)) // check if the questions in the request are the same (order and count) as the available questions
             return Result.Failure(VoteErrors.InvalidQuestions);
+
         var vote = new Vote
         {
             PollId = pollId,

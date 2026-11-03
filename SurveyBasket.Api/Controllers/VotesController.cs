@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Contracts.Votes;
-
-namespace SurveyBasket.Api.Controllers;
+﻿namespace SurveyBasket.Api.Controllers;
 
 [Route("api/polls/{pollId}/vote")]
 [ApiController]

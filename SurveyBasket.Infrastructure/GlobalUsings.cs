@@ -9,7 +9,10 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.EntityFrameworkCore.Migrations;
+global using Microsoft.EntityFrameworkCore.Infrastructure;
 
+global using System;
 global using System.ComponentModel.DataAnnotations;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
@@ -26,3 +29,6 @@ global using SurveyBasket.Infrastructure.Persistence;
 global using SurveyBasket.Infrastructure.Services;
 global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Common.Results;
+
+
+
