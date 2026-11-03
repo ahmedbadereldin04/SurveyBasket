@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Contracts.Authentication;
+﻿namespace SurveyBasket.Infrastructure.Options;
 
 public class JwtOptions
 {
