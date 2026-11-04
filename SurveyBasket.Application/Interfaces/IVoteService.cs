@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Contracts.Votes;
-
-namespace SurveyBasket.Application.Interfaces;
+﻿namespace SurveyBasket.Application.Interfaces;
 
 public interface IVoteService
 {

@@ -22,13 +22,16 @@ global using System.Reflection;
 
 
 global using SurveyBasket.Domain.Entities;
+
 global using SurveyBasket.Application.Common.Interfaces;
 global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Interfaces;
-global using SurveyBasket.Infrastructure.Persistence;
-global using SurveyBasket.Infrastructure.Services;
 global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Common.Results;
+
+global using SurveyBasket.Infrastructure.Options;
+global using SurveyBasket.Infrastructure.Persistence;
+global using SurveyBasket.Infrastructure.Services;
 
 
 

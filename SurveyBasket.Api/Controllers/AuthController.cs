@@ -1,4 +1,7 @@
-﻿namespace SurveyBasket.Api.Controllers;
+﻿using Microsoft.AspNetCore.Identity;
+using SurveyBasket.Domain.Entities;
+
+namespace SurveyBasket.Api.Controllers;
 
 
 [Route("[controller]")]
@@ -30,5 +33,6 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
+
     
 }
