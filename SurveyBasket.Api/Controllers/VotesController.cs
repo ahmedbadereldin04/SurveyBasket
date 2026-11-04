@@ -9,13 +9,14 @@ public class VotesController(IQuestionService questionService, IVoteService vote
     private readonly IVoteService _voteService = voteService;
 
     [HttpGet("")]
-    public async Task<IActionResult> Start([FromRoute] int pollId,CancellationToken cancellationToken)
+    public async Task<IActionResult> Start([FromRoute] int pollId, CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
 
         var result = await _questionService.GetAvailableAsync(pollId, userId!, cancellationToken);
 
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+
     }
 
     [HttpPost("")]

@@ -6,16 +6,16 @@ public class PollService(IApplicationDbContext context) : IPollService
 
     public async Task<IEnumerable<PollResponse>> GetAllAsync(CancellationToken cancellationToken = default) =>
         await _context.Polls
-        .AsNoTracking()
-        .ProjectToType<PollResponse>()
-        .ToListAsync(cancellationToken);
+            .AsNoTracking()
+            .ProjectToType<PollResponse>()
+            .ToListAsync(cancellationToken);
 
     public async Task<IEnumerable<PollResponse>> GetCurrentAsync(CancellationToken cancellationToken = default) =>
         await _context.Polls
-        .AsNoTracking()
-        .Where(x => x.IsPublished && x.StartsAt <= DateOnly.FromDateTime(DateTime.Now) && x.EndsAt >= DateOnly.FromDateTime(DateTime.Now))
-        .ProjectToType<PollResponse>()
-        .ToListAsync(cancellationToken);
+            .Where(x => x.IsPublished && x.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) && x.EndsAt >= DateOnly.FromDateTime(DateTime.UtcNow))
+            .AsNoTracking()
+            .ProjectToType<PollResponse>()
+            .ToListAsync(cancellationToken);
 
     public async Task<Result<PollResponse>> GetAsync(int id, CancellationToken cancellationToken = default)
     {
@@ -26,13 +26,12 @@ public class PollService(IApplicationDbContext context) : IPollService
             : Result.Failure<PollResponse>(PollErrors.PollNotFound);
     }
 
-
     public async Task<Result<PollResponse>> AddAsync(PollRequest request, CancellationToken cancellationToken = default)
     {
         var isExistingTitle = await _context.Polls.AnyAsync(x => x.Title == request.Title, cancellationToken: cancellationToken);
 
         if (isExistingTitle)
-           return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
+            return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
 
         var poll = request.Adapt<Poll>();
 
@@ -41,10 +40,10 @@ public class PollService(IApplicationDbContext context) : IPollService
 
         return Result.Success(poll.Adapt<PollResponse>());
     }
+
     public async Task<Result> UpdateAsync(int id, PollRequest request, CancellationToken cancellationToken = default)
     {
-        var isExistingTitle = await _context.Polls.AnyAsync(x => x.Title == request.Title
-        && x.Id != id, cancellationToken: cancellationToken);
+        var isExistingTitle = await _context.Polls.AnyAsync(x => x.Title == request.Title && x.Id != id, cancellationToken: cancellationToken);
 
         if (isExistingTitle)
             return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
@@ -71,9 +70,11 @@ public class PollService(IApplicationDbContext context) : IPollService
         if (poll is null)
             return Result.Failure(PollErrors.PollNotFound);
 
+
         _context.Polls.Remove(poll);
 
         await _context.SaveChangesAsync(cancellationToken);
+
         return Result.Success();
     }
 
@@ -87,6 +88,7 @@ public class PollService(IApplicationDbContext context) : IPollService
         poll.IsPublished = !poll.IsPublished;
 
         await _context.SaveChangesAsync(cancellationToken);
+
         return Result.Success();
     }
 }
