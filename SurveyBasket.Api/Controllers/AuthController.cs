@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SurveyBasket.Domain.Entities;
-
-namespace SurveyBasket.Api.Controllers;
+﻿namespace SurveyBasket.Api.Controllers;
 
 
 [Route("[controller]")]
 [ApiController]
-public class AuthController(IAuthService authService) : ControllerBase
+public class AuthController(IAuthService authService, ILogger<AuthController> logger) : ControllerBase
 {
     private readonly IAuthService _authService = authService;
+    private readonly ILogger<AuthController> _logger = logger;
 
     [HttpPost("")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Logging with email: {Email} and password: {Password}", request.Email, request.Password);
+
         var result = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
@@ -34,5 +34,4 @@ public class AuthController(IAuthService authService) : ControllerBase
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
 
-    
 }

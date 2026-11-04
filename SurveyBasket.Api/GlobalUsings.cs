@@ -1,4 +1,6 @@
 ﻿global using Mapster;
+global using Serilog;
+
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 
