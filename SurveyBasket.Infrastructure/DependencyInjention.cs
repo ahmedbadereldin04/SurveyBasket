@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Infrastructure.Options;
-
-namespace SurveyBasket.Infrastructure;
+﻿namespace SurveyBasket.Infrastructure;
 
 public static class DependencyInjention
 {
