@@ -5,9 +5,6 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
 
-        services.AddControllers();
-
-
         services.AddScoped<IPollService, PollService>();
         services.AddScoped<IQuestionService, QuestionService>();
         services.AddScoped<IVoteService, VoteService>();
@@ -18,9 +15,6 @@ public static class DependencyInjection
         mappingconfig.Scan(Assembly.GetExecutingAssembly());
 
         services.AddSingleton<IMapper>(new Mapper(mappingconfig));
-
-
-
 
         // Add Validation ──────────────────────────────────────────────────────────
         services

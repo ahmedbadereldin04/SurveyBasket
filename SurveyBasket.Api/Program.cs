@@ -1,8 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Register Application and Infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration)
+    .AddApi(builder.Configuration)
     .AddApplication();
 
 // Configure application logging with Serilog
