@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Api.Controllers;
+﻿using Microsoft.AspNetCore.OutputCaching;
+
+namespace SurveyBasket.Api.Controllers;
 
 [Route("api/polls/{pollId}/vote")]
 [ApiController]

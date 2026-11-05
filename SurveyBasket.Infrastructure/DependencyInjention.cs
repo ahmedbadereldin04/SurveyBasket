@@ -53,72 +53,17 @@ public static class DependencyInjention
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,
-                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSettings?.Key!)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Key!)),
                 ValidIssuer = jwtSettings?.Issuer,
                 ValidAudience = jwtSettings?.Audience
             };
         });
 
 
-        // Add Swagger Configurations ─────────────────────────────────────────────────────────
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "WiseGrader System",
-                Version = "v1",
-                Description = "WiseGrader Management System",
-                Contact = new OpenApiContact
-                {
-                    Name = "WiseGrader"
-                }
-            });
+        
 
-            // JWT Authentication ─────────────────────────────────────────────────────────
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                In = ParameterLocation.Header,
-                Description = "Enter your JWT token"
-            });
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                    },
-                        Array.Empty<string>()
-                }
-            });
-
-        });
-
-
-        // CORS ─────────────────────────────────────────────────────────
-        services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(builder =>
-            {
-                builder
-                     .AllowAnyMethod()
-                     .AllowAnyHeader()
-                     .AllowAnyOrigin();    
-            });
-               
-        });
-
-        // Exception Handler ─────────────────────────────────────────────────────────
-        services.AddExceptionHandler<GlobalExecptionHandler>();
-        services.AddProblemDetails();
-
+        // Add Hybrid Cache
+        services.AddHybridCache();
 
 
         return services;
