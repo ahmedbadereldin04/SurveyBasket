@@ -9,5 +9,8 @@ public class MappingConfigurations : IRegister
 
         //config.NewConfig<QuestionRequest, Question>()
         //    .Ignore(nameof(Question.Answers)); //هفعل ال foreach in QuestionService in AddAsync
+
+        config.NewConfig<RegisterRequest, ApplicationUser>()
+            .Map(dest => dest.UserName, src => src.Email);
     }
 }
