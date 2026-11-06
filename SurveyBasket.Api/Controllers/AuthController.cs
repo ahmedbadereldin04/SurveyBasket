@@ -34,4 +34,27 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
 
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _authService.RegisterAsync(request, cancellationToken);
+
+        return result.IsSuccess ? Ok() : result.ToProblem();
+    }
+
+    [HttpPost("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request,CancellationToken cancellationToken)
+    {
+        var result = await _authService.ConfirmEmailAsync(request);
+
+        return result.IsSuccess ? Ok() : result.ToProblem();
+    }
+
+    [HttpPost("resend-confirmation-email")]
+    public async Task<IActionResult> ConfirmEmail([FromBody] ResendConfirmationEmailRequest request,CancellationToken cancellationToken)
+    {
+        var result = await _authService.ResendConfirmationEmailRequestAsync(request);
+
+        return result.IsSuccess ? Ok() : result.ToProblem();
+    }
 }

@@ -2,11 +2,11 @@
 
 public static class DependencyInjention
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // Database ──────────────────────────────────────────────────────────
 
-        var connectionString = config.GetConnectionString("DefaultConnection") ??
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 
@@ -19,21 +19,23 @@ public static class DependencyInjention
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IEmailSender, EmailService>();
+
 
 
         // Add Auth Config ─────────────────────────────────────────────────────────
-        var jwtSettings = config.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
              .AddDefaultTokenProviders();
 
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IJwtProvider, JwtProvider>();
 
         // Add Options Pattern
         services.AddOptions<JwtOptions>()
-            .Bind(config.GetSection(JwtOptions.SectionName))
+            .Bind(configuration.GetSection(JwtOptions.SectionName))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
@@ -59,11 +61,24 @@ public static class DependencyInjention
             };
         });
 
+        //Configure Identity Options
+        services.Configure<IdentityOptions>(options =>
+        {           
+            options.Password.RequiredLength = 8;
+            options.SignIn.RequireConfirmedEmail = true;
+            options.User.RequireUniqueEmail = true;
+        });
 
         
 
         // Add Hybrid Cache
         services.AddHybridCache();
+
+        // Add email configuration
+        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+
+        // Add HttpContextAccessor
+        services.AddHttpContextAccessor();
 
 
         return services;

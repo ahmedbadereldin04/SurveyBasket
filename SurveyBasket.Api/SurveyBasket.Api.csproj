@@ -21,7 +21,6 @@
     <Folder Include="Filters\" />
     <Folder Include="Health\" />
     <Folder Include="Swagger\" />
-    <Folder Include="Templates\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
