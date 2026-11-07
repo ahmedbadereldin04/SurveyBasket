@@ -13,6 +13,9 @@ public class EmailService(IOptions<MailSettings> mailSettings, ILogger<EmailServ
             Subject = subject,
         };
 
+        //Set the sender's display name and email address from appsettings
+        message.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
+
         message.To.Add(MailboxAddress.Parse(email));
 
         var builder = new BodyBuilder
@@ -31,4 +34,5 @@ public class EmailService(IOptions<MailSettings> mailSettings, ILogger<EmailServ
         await smtp.SendAsync(message);
         smtp.Disconnect(true);
     }
+
 }
