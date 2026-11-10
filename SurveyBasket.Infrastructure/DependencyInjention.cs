@@ -9,10 +9,12 @@ public static class DependencyInjention
         var connectionString = configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
+        // Hangfire ──────────────────────────────────────────────────────────
+        services.AddBackgroundJobsConfig(configuration);
+
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
-
 
 
         // Services ─────────────────────────────────────────────────────────
@@ -22,25 +24,42 @@ public static class DependencyInjention
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IEmailSender, EmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
 
 
 
         // Add Auth Config ─────────────────────────────────────────────────────────
-        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+        services.AddAuthConfig(configuration);
 
+        // Add Hybrid Cache
+        services.AddHybridCache();
+
+        // Add email configuration
+        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+
+        // Add HttpContextAccessor
+        services.AddHttpContextAccessor();
+
+
+        return services;
+    }
+
+
+    private static IServiceCollection AddAuthConfig(this IServiceCollection services,
+        IConfiguration configuration)
+    {
         services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-             .AddDefaultTokenProviders();
+          .AddEntityFrameworkStores<ApplicationDbContext>()
+          .AddDefaultTokenProviders();
 
 
-        // Add Options Pattern
         services.AddOptions<JwtOptions>()
-            .Bind(configuration.GetSection(JwtOptions.SectionName))
+            .BindConfiguration(JwtOptions.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
+        var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
-        // Add JWT Configurations
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,25 +80,27 @@ public static class DependencyInjention
             };
         });
 
-        //Configure Identity Options
         services.Configure<IdentityOptions>(options =>
-        {           
+        {
             options.Password.RequiredLength = 8;
             options.SignIn.RequireConfirmedEmail = true;
             options.User.RequireUniqueEmail = true;
         });
 
-        
+        return services;
+    }
 
-        // Add Hybrid Cache
-        services.AddHybridCache();
 
-        // Add email configuration
-        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+    private static IServiceCollection AddBackgroundJobsConfig(this IServiceCollection services,IConfiguration configuration)
+    {
 
-        // Add HttpContextAccessor
-        services.AddHttpContextAccessor();
+        services.AddHangfire(config => config
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
 
+        services.AddHangfireServer();
 
         return services;
     }

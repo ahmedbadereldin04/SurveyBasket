@@ -1,6 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-
-namespace SurveyBasket.Api.Configurations;
+﻿namespace SurveyBasket.Api.Configurations;
 
 public static class DependencyInjection
 {
@@ -12,6 +10,23 @@ public static class DependencyInjection
 
 
         // Add Swagger Configurations ─────────────────────────────────────────────────────────
+        services
+            .AddSwaggerConfig(config);
+
+
+        // CORS ─────────────────────────────────────────────────────────
+        services.AddCORSConfig(config);
+
+
+        // Exception Handler ─────────────────────────────────────────────────────────
+        services.AddExceptionHandler<GlobalExecptionHandler>();
+        services.AddProblemDetails();
+
+        return services;
+    }
+
+    private static IServiceCollection AddSwaggerConfig(this IServiceCollection services,IConfiguration configuration)
+    {
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
@@ -52,8 +67,11 @@ public static class DependencyInjection
 
         });
 
+        return services;
+    }
 
-        // CORS ─────────────────────────────────────────────────────────
+    private static IServiceCollection AddCORSConfig(this IServiceCollection services, IConfiguration configuration)
+    {
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(builder =>
@@ -65,13 +83,6 @@ public static class DependencyInjection
             });
 
         });
-
-
-        // Exception Handler ─────────────────────────────────────────────────────────
-        services.AddExceptionHandler<GlobalExecptionHandler>();
-        services.AddProblemDetails();
-
         return services;
     }
-
 }
