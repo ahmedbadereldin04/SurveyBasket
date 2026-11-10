@@ -1,7 +1,11 @@
 ﻿global using Serilog;
+global using Hangfire;
+global using HangfireBasicAuthenticationFilter;
+global using Hangfire.Dashboard;
 
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.OpenApi.Models;
 
 global using System.Security.Claims;
 

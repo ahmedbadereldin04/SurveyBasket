@@ -2,7 +2,7 @@
 global using MimeKit;
 global using MailKit.Net.Smtp;
 global using MailKit.Security;
-
+global using Hangfire;
 
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
@@ -16,10 +16,9 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.EntityFrameworkCore.Migrations;
 global using Microsoft.EntityFrameworkCore.Infrastructure;
-global  using Microsoft.AspNetCore.WebUtilities;
-global  using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.WebUtilities;
+global using Microsoft.Extensions.Logging;
   
-global using System;
 global using System.ComponentModel.DataAnnotations;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;

@@ -13,6 +13,9 @@ public static class EmailBodyBuilder
         var body = streamReader.ReadToEnd();
         streamReader.Close();
 
+        //var body = File.ReadAllText(templatePath);
+
+
         foreach (var item in templateModel)
             body = body.Replace(item.Key, item.Value);
 
