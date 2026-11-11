@@ -35,6 +35,7 @@ global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Interfaces;
 global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Common.Results;
+global using SurveyBasket.Application.Contracts.Users;
 
 global using SurveyBasket.Infrastructure.Options;
 global using SurveyBasket.Infrastructure.Persistence;

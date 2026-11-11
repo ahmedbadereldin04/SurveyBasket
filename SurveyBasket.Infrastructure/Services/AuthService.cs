@@ -188,6 +188,8 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
     }
 
+
+
     private async Task SendConfirmationEmail(ApplicationUser user, string code)
     {
         var origin = _httpContextAccessor.HttpContext?.Request.Headers.Origin;
