@@ -1,7 +1,6 @@
 ﻿global using Serilog;
 global using Hangfire;
 global using HangfireBasicAuthenticationFilter;
-global using Hangfire.Dashboard;
 
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
@@ -20,5 +19,6 @@ global using SurveyBasket.Application.Common.Results;
 global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Contracts.Questions;
 global using SurveyBasket.Application.Contracts.Votes;
+global using SurveyBasket.Application.Contracts.Users;
 
 global using SurveyBasket.Infrastructure;
