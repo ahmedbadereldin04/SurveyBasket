@@ -227,7 +227,6 @@ public class AuthService(UserManager<ApplicationUser> userManager,
 
         var error = result.Errors.First();
         return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status401Unauthorized));
-
     }
 
 

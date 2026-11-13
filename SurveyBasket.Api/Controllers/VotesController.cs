@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.OutputCaching;
-
-namespace SurveyBasket.Api.Controllers;
+﻿namespace SurveyBasket.Api.Controllers;
 
 [Route("api/polls/{pollId}/vote")]
 [ApiController]
@@ -9,7 +7,7 @@ public class VotesController(IQuestionService questionService, IVoteService vote
 {
     private readonly IQuestionService _questionService = questionService;
     private readonly IVoteService _voteService = voteService;
-
+    
     [HttpGet("")]
     public async Task<IActionResult> Start([FromRoute] int pollId, CancellationToken cancellationToken)
     {

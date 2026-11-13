@@ -10,7 +10,7 @@ public class AccountController(IUserService userService) : ControllerBase
     [HttpGet("")]
     public async Task<IActionResult> Info(CancellationToken cancellationToken = default)
     {
-        var result = await _userService.GetProfileAsync(User.GetUserId()!);
+        var result = await _userService.GetProfileAsync(User.GetUserId()!, cancellationToken);
         return Ok(result.Value);
     }
 
@@ -24,7 +24,7 @@ public class AccountController(IUserService userService) : ControllerBase
     [HttpPut("change-password")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken = default)
     {
-        var result = await _userService.ChangePasswordAsync(User.GetUserId()!, request);
+        var result = await _userService.ChangePasswordAsync(User.GetUserId()!, request, cancellationToken);
 
         return result.IsSuccess ? NoContent() : result.ToProblem();
     }
