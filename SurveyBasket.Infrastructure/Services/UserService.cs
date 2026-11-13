@@ -28,6 +28,7 @@ public class UserService(UserManager<ApplicationUser> userManager) : IUserServic
                 setters
                     .SetProperty(x=>x.FirstName,request.FirstName)
                     .SetProperty(x=>x.LastName,request.LastName)
+                    , cancellationToken
             );
 
 
