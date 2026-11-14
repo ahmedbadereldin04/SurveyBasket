@@ -1,4 +1,5 @@
 ﻿global using Mapster;
+global using MailKit;
 global using MimeKit;
 global using MailKit.Net.Smtp;
 global using MailKit.Security;
