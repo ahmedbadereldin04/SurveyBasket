@@ -45,6 +45,106 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "permission",
+                            ClaimValue = "polls:read",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "permission",
+                            ClaimValue = "polls:add",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "permission",
+                            ClaimValue = "polls:update",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "permission",
+                            ClaimValue = "polls:delete",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClaimType = "permission",
+                            ClaimValue = "questions:read",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClaimType = "permission",
+                            ClaimValue = "questions:add",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "permission",
+                            ClaimValue = "questions:update",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "permission",
+                            ClaimValue = "users:read",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClaimType = "permission",
+                            ClaimValue = "users:add",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ClaimType = "permission",
+                            ClaimValue = "users:update",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ClaimType = "permission",
+                            ClaimValue = "roles:read",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ClaimType = "permission",
+                            ClaimValue = "roles:add",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ClaimType = "permission",
+                            ClaimValue = "roles:update",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ClaimType = "permission",
+                            ClaimValue = "results:read",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -107,6 +207,13 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "01a1e0c4-fa3e-7fdf-9d16-a039b18cb9ad",
+                            RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -186,6 +293,26 @@ namespace SurveyBasket.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "01a1e48b-3d28-773d-9710-77a362969017",
+                            ConcurrencyStamp = "01a1e48d-2cb3-74af-99a9-71e87e748840",
+                            IsDefault = false,
+                            IsDeleted = false,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "01a1e48b-6481-7c4b-b15d-cb4c476d450b",
+                            ConcurrencyStamp = "01a1e48d-9def-73b5-815c-1453985070e9",
+                            IsDefault = true,
+                            IsDeleted = false,
+                            Name = "Member",
+                            NormalizedName = "MEMBER"
+                        });
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.ApplicationUser", b =>
@@ -261,6 +388,26 @@ namespace SurveyBasket.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "01a1e0c4-fa3e-7fdf-9d16-a039b18cb9ad",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "01a1e0d3-8664-7b16-a125-a4aba9c38324",
+                            Email = "adminbadereldin@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Ahmed",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINBADERELDIN@GMAIL.COM",
+                            NormalizedUserName = "ADMINBADERELDIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMszMUwLPJEJzdJRvp0K87tgYO1yqo51S/q6wK+4xRgtfwUT7ZNhxDf2rm3VsIRfTQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "04D4DEA288FA44C9B9FD41F6E95B377C",
+                            TwoFactorEnabled = false,
+                            UserName = "adminbadereldin@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.Poll", b =>
