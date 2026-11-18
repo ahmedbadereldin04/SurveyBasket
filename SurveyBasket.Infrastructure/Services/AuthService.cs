@@ -5,7 +5,8 @@ public class AuthService(UserManager<ApplicationUser> userManager,
     IJwtProvider jwtProvider,
     ILogger<AuthService> logger,
     IEmailSender emailSender,
-    IHttpContextAccessor httpContextAccessor) : IAuthService
+    IHttpContextAccessor httpContextAccessor,
+    ApplicationDbContext context) : IAuthService
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
@@ -13,6 +14,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
     private readonly ILogger<AuthService> _logger = logger;
     private readonly IEmailSender _emailSender = emailSender;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly ApplicationDbContext _context = context;
     private readonly int _refreshTokenExpiryDays = 14; // Default expiration time in days
 
 
@@ -23,12 +25,13 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         if (await _userManager.FindByEmailAsync(email) is not { } user)
             return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, password,false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
         if (result.Succeeded)
         {
+            var (userRoles, userPermissions) = await GetUserRolesAndPermissions(user, cancellationToken);
             //generate jwt token
-            var (token, expiresIn) = _jwtProvider.GenerateToken(user);
+            var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles, userPermissions);
 
             //generate refresh token
             var refreshToken = GenerateRefreshToken();
@@ -64,12 +67,14 @@ public class AuthService(UserManager<ApplicationUser> userManager,
 
         var userRefreshToken = user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken && rt.IsActive);
 
-        if(userRefreshToken is null)
+        if (userRefreshToken is null)
             return Result.Failure<AuthResponse>(UserErrors.InvalidRefreshToken);
 
         userRefreshToken.RevokedOn = DateTime.UtcNow;
 
-        var (newToken, expiresIn) = _jwtProvider.GenerateToken(user);
+        var (userRoles, userPermissions) = await GetUserRolesAndPermissions(user, cancellationToken);
+
+        var (newToken, expiresIn) = _jwtProvider.GenerateToken(user, userRoles, userPermissions);
         var newRefreshToken = GenerateRefreshToken();
         var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
         user.RefreshTokens.Add(new RefreshToken
@@ -133,7 +138,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         }
 
         var error = result.Errors.First();
-            return Result.Failure(new Error(error.Code, error.Description,StatusCodes.Status400BadRequest));
+        return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
@@ -141,7 +146,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         if (await _userManager.FindByIdAsync(request.UserId) is not { } user)
             return Result.Failure(UserErrors.InvalidCode);
 
-        if(user.EmailConfirmed)
+        if (user.EmailConfirmed)
             return Result.Failure(UserErrors.DuplicatedConfirmation);
 
         var code = request.Code;
@@ -149,7 +154,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         {
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         }
-        catch(FormatException)
+        catch (FormatException)
         {
             return Result.Failure(UserErrors.InvalidCode);
         }
@@ -157,7 +162,10 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         var result = await _userManager.ConfirmEmailAsync(user, code);
 
         if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, DefaultRoles.Member);
             return Result.Success();
+        }
 
         var error = result.Errors.First();
 
@@ -186,7 +194,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
 
     public async Task<Result> SendResetPasswordCodeAsync(string email)
     {
-        if(await _userManager.FindByEmailAsync(email) is not { } user)
+        if (await _userManager.FindByEmailAsync(email) is not { } user)
             return Result.Success();
 
         if (!user.EmailConfirmed)
@@ -217,7 +225,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
 
             result = await _userManager.ResetPasswordAsync(user, code, request.NewPassword);
         }
-        catch(FormatException)
+        catch (FormatException)
         {
             result = IdentityResult.Failed(_userManager.ErrorDescriber.InvalidToken());
         }
@@ -266,5 +274,32 @@ public class AuthService(UserManager<ApplicationUser> userManager,
         BackgroundJob.Enqueue(() => _emailSender.SendEmailAsync(user.Email!, "🔑 Survey Basket: Reset Password", emailBody));
 
         await Task.CompletedTask;
+    }
+
+    private async Task<(IEnumerable<string> roles, IEnumerable<string> permissions)> GetUserRolesAndPermissions(ApplicationUser user, CancellationToken cancellationToken)
+    {
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        //var userPermissions = await _context.Roles  // Extension methods syntax
+        //    .Join(_context.RoleClaims,
+        //        role => role.Id,
+        //        claim => claim.RoleId,
+        //        (role, claim) => new { role, claim }
+        //    )
+        //    .Where(x => userRoles.Contains(x.role.Name!))
+        //    .Select(x => x.claim.ClaimValue!)
+        //    .Distinct()
+        //    .ToListAsync(cancellationToken);
+
+        var userPermissions = await (from r in _context.Roles    // Query syntax
+                                     join p in _context.RoleClaims
+                                     on r.Id equals p.RoleId
+                                     where userRoles.Contains(r.Name!)
+                                     select p.ClaimValue!)
+                                   .Distinct()
+                                   .ToListAsync(cancellationToken);
+        
+
+        return (userRoles, userPermissions);
     }
 }

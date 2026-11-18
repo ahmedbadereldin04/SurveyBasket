@@ -18,7 +18,6 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 
-                         
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequset request, CancellationToken cancellationToken)
     {
@@ -26,6 +25,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
 
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
+
     [HttpPost("revoke-refresh-token")]
     public async Task<IActionResult> Revoke([FromBody] RefreshTokenRequset request, CancellationToken cancellationToken)
     {
