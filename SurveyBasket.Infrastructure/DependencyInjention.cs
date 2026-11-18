@@ -44,9 +44,7 @@ public static class DependencyInjention
         return services;
     }
 
-
-    private static IServiceCollection AddAuthConfig(this IServiceCollection services,
-        IConfiguration configuration)
+    private static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentity<ApplicationUser, ApplicationRole>()
           .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -89,7 +87,6 @@ public static class DependencyInjention
 
         return services;
     }
-
 
     private static IServiceCollection AddBackgroundJobsConfig(this IServiceCollection services,IConfiguration configuration)
     {

@@ -10,7 +10,5 @@ public static class DefaultRoles
     public const string Member = nameof(Member);
     public const string MemberRoleId = "01a1e48b-6481-7c4b-b15d-cb4c476d450b";
     public const string MemberRoleConcurrencyStamp = "01a1e48d-9def-73b5-815c-1453985070e9";
-
-
-        
+ 
 }

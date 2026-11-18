@@ -4,20 +4,21 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-
+        // Services ──────────────────────────────────────────────────────────
         services.AddScoped<IPollService, PollService>();
         services.AddScoped<IQuestionService, QuestionService>();
         services.AddScoped<IVoteService, VoteService>();
         services.AddScoped<IResultService, ResultService>();
 
-        //Add Mapster ──────────────────────────────────────────────────────────
+        // Add Mapster ──────────────────────────────────────────────────────────
         services.AddMapsterConfig();
 
         // Add Validation ──────────────────────────────────────────────────────────
         services.AddFluentValidationConfig();
 
         return services;
-    }
+    } 
+
     private static IServiceCollection AddMapsterConfig(this IServiceCollection services)
     {
         var mappingConfig = TypeAdapterConfig.GlobalSettings;
@@ -36,5 +37,4 @@ public static class DependencyInjection
 
         return services;
     }
-
 }
