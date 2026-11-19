@@ -2,7 +2,6 @@
 
 [Route("api/polls/{pollId}/[controller]")]
 [ApiController]
-[Authorize]
 public class QuestionsController(IQuestionService questionService) : ControllerBase
 {
     private readonly IQuestionService _questionService = questionService;
