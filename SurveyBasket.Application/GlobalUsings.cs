@@ -15,7 +15,6 @@ global using System.Reflection;
 
 global using SurveyBasket.Application.Interfaces;
 global using SurveyBasket.Application.Services;
-global using SurveyBasket.Domain.Entities;
 global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Common.Interfaces;
 global using SurveyBasket.Application.Common.Errors;
@@ -27,3 +26,6 @@ global using SurveyBasket.Application.Contracts.Votes;
 global using SurveyBasket.Application.Contracts.Results;
 global using SurveyBasket.Application.Common.Consts;
 global using SurveyBasket.Application.Contracts.Users;
+global using SurveyBasket.Application.Contracts.Roles;
+
+global using SurveyBasket.Domain.Entities;

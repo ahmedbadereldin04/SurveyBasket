@@ -38,6 +38,7 @@ global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Common.Results;
 global using SurveyBasket.Application.Contracts.Users;
 global using SurveyBasket.Application.Common.Consts;
+global using SurveyBasket.Application.Contracts.Roles;
 
 global using SurveyBasket.Infrastructure.Options;
 global using SurveyBasket.Infrastructure.Persistence;
