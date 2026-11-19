@@ -2,6 +2,7 @@
 
 public interface IUserService
 {
+    Task<IEnumerable<UserResponse>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<Result<UserProfileResponse>> GetProfileAsync(string userId, CancellationToken cancellationToken = default);
     Task<Result> UpdateProfileAsync(string userId, UpdateProfileRequest request, CancellationToken cancellationToken = default);
     Task<Result> ChangePasswordAsync(string userId, ChangePasswordRequest request, CancellationToken cancellationToken = default);
