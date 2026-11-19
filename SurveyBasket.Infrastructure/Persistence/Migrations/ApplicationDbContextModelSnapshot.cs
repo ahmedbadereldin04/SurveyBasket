@@ -50,98 +50,98 @@ namespace SurveyBasket.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "polls:read",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 2,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "polls:add",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 3,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "polls:update",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 4,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "polls:delete",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 5,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "questions:read",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 6,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "questions:add",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 7,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "questions:update",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 8,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "users:read",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 9,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "users:add",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 10,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "users:update",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 11,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "roles:read",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 12,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "roles:add",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 13,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "roles:update",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         },
                         new
                         {
                             Id = 14,
-                            ClaimType = "permission",
+                            ClaimType = "permissions",
                             ClaimValue = "results:read",
                             RoleId = "01a1e48b-3d28-773d-9710-77a362969017"
                         });
@@ -259,7 +259,7 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("QuestionId", "Content")
                         .IsUnique();
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.ApplicationRole", b =>
@@ -459,7 +459,7 @@ namespace SurveyBasket.Infrastructure.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Polls", (string)null);
+                    b.ToTable("Polls");
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.Question", b =>
@@ -503,7 +503,7 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("PollId", "Content")
                         .IsUnique();
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.Vote", b =>
@@ -531,7 +531,7 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("PollId", "UserId")
                         .IsUnique();
 
-                    b.ToTable("Votes", (string)null);
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("SurveyBasket.Domain.Entities.VoteAnswer", b =>
@@ -560,7 +560,7 @@ namespace SurveyBasket.Infrastructure.Migrations
                     b.HasIndex("VoteId", "QuestionId")
                         .IsUnique();
 
-                    b.ToTable("VoteAnswers", (string)null);
+                    b.ToTable("VoteAnswers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

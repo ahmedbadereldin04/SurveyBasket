@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Infrastructure;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace SurveyBasket.Infrastructure;
 
 public static class DependencyInjention
 {
