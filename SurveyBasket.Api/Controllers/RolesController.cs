@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Application.Contracts.Roles;
-
+﻿
 namespace SurveyBasket.Api.Controllers;
 
 [Route("api/[controller]")]
@@ -32,7 +31,25 @@ public class RolesController(IRoleService roleService) : ControllerBase
     {
         var result = await _roleService.AddAsync(request);
 
-        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        return result.IsSuccess ? CreatedAtAction(nameof(Get), new {result.Value.Id}, result.Value) : result.ToProblem();
+    }
+
+    [HttpPut("{id}")]
+    [HasPermission(Permissions.UpdateRoles)]
+    public async Task<IActionResult> Update([FromRoute] string id, [FromBody] RoleRequest request)
+    {
+        var result = await _roleService.UpdateAsync(id,request);
+
+        return result.IsSuccess ? NoContent() : result.ToProblem();
+    }
+
+    [HttpPut("{id}/toggle-status")]
+    [HasPermission(Permissions.UpdateRoles)]
+    public async Task<IActionResult> ToggleStatus([FromRoute] string id)
+    {
+        var result = await _roleService.ToggleStatusAsync(id);
+
+        return result.IsSuccess ? NoContent() : result.ToProblem();
     }
 }
          
