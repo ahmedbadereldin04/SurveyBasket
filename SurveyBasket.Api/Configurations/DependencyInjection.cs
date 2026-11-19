@@ -22,6 +22,11 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExecptionHandler>();
         services.AddProblemDetails();
 
+
+        // Permissions ─────────────────────────────────────────────────────────
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
         return services;
     }
 
