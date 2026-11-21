@@ -13,7 +13,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
             .ProjectToType<RoleResponse>()
             .ToListAsync(cancellationToken);
 
-    public async Task<Result<RoleDetailsResponse>> GetAsync(string id)
+    public async Task<Result<RoleDetailsResponse>> GetAsync([FromRoute] string id)
     {
         if (await _roleManager.FindByIdAsync(id) is not { } role)
             return Result.Failure<RoleDetailsResponse>(RoleErrors.RoleNotFound);
@@ -25,7 +25,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
         return Result.Success(response);
     }
 
-    public async Task<Result<RoleDetailsResponse>> AddAsync(RoleRequest request)
+    public async Task<Result<RoleDetailsResponse>> AddAsync([FromBody] RoleRequest request)
     {
         var roleIsExists = await _roleManager.RoleExistsAsync(request.Name);
 
@@ -67,7 +67,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
 
         return Result.Failure<RoleDetailsResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
-    public async Task<Result> UpdateAsync(string id, RoleRequest request)
+    public async Task<Result> UpdateAsync([FromRoute] string id,[FromBody] RoleRequest request)
     {
         var roleIsExists = await _roleManager.Roles.AnyAsync(x => x.Name == request.Name && x.Id != id);
 
@@ -118,7 +118,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
         return Result.Failure<RoleDetailsResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
-    public async Task<Result> ToggleStatusAsync(string id)
+    public async Task<Result> ToggleStatusAsync([FromRoute] string id)
     {
         if (await _roleManager.FindByIdAsync(id) is not { } role)
             return Result.Failure<RoleDetailsResponse>(RoleErrors.RoleNotFound);
