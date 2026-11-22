@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Hangfire" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
@@ -21,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Health\" />
     <Folder Include="Swagger\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>

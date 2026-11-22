@@ -1,4 +1,6 @@
-﻿global using Serilog;
+﻿global using MailKit.Net.Smtp;
+global using MailKit.Security;
+global using Serilog;
 global using Hangfire;
 global using HangfireBasicAuthenticationFilter;
 
@@ -6,12 +8,14 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
 global using Microsoft.Extensions.Options;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 global using System.Security.Claims;
 
 global using SurveyBasket.Api.Extensions;
 global using SurveyBasket.Api.Configurations;
 global using SurveyBasket.Api.Filters;
+global using SurveyBasket.Api.Health;
 
 global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Interfaces;
@@ -27,4 +31,4 @@ global using SurveyBasket.Application.Contracts.Roles;
 global using SurveyBasket.Application.Contracts.Common;
 
 global using SurveyBasket.Infrastructure;
-global using SurveyBasket.Infrastructure.Persistence;
+global using SurveyBasket.Infrastructure.Options;

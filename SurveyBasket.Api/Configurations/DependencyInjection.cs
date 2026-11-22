@@ -23,9 +23,8 @@ public static class DependencyInjection
         services.AddProblemDetails();
 
         // Health Checks ─────────────────────────────────────────────────────────
-        services.AddHealthChecks()
-            .AddSqlServer(name: "database", connectionString: config.GetConnectionString("DefaultConnection")!);
-            
+        services.AddHealthChecksConfig(config);
+
 
         // Permissions ─────────────────────────────────────────────────────────
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -92,6 +91,17 @@ public static class DependencyInjection
             });
 
         });
+        return services;
+    }
+
+    private static IServiceCollection AddHealthChecksConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHealthChecks()
+            .AddSqlServer(name: "database", connectionString: configuration.GetConnectionString("DefaultConnection")!)
+            .AddHangfire(options => { options.MinimumAvailableServers = 1; })
+            .AddCheck<MailProviderHealthCheck>("mail service");
+            
+
         return services;
     }
 }
