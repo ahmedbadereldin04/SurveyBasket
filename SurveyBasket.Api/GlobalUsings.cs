@@ -27,3 +27,4 @@ global using SurveyBasket.Application.Contracts.Roles;
 global using SurveyBasket.Application.Contracts.Common;
 
 global using SurveyBasket.Infrastructure;
+global using SurveyBasket.Infrastructure.Persistence;

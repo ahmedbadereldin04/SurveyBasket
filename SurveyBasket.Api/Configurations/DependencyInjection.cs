@@ -22,6 +22,10 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExecptionHandler>();
         services.AddProblemDetails();
 
+        // Health Checks ─────────────────────────────────────────────────────────
+        services.AddHealthChecks()
+            .AddSqlServer(name: "database", connectionString: config.GetConnectionString("DefaultConnection")!);
+            
 
         // Permissions ─────────────────────────────────────────────────────────
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
