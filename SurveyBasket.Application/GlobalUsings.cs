@@ -10,8 +10,10 @@ global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Caching.Hybrid;
 
 global using System.Reflection;
+global using System.Linq.Dynamic.Core;
 
 global using SurveyBasket.Application.Interfaces;
 global using SurveyBasket.Application.Services;
@@ -27,5 +29,7 @@ global using SurveyBasket.Application.Contracts.Results;
 global using SurveyBasket.Application.Common.Consts;
 global using SurveyBasket.Application.Contracts.Users;
 global using SurveyBasket.Application.Contracts.Roles;
+global using SurveyBasket.Application.Contracts.Common;
+global using SurveyBasket.Application.Common.Models;
 
 global using SurveyBasket.Domain.Entities;
