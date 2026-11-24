@@ -3,6 +3,7 @@
 
 [Route("[controller]")]
 [ApiController]
+[EnableRateLimiting("ipLimit")]
 public class AuthController(IAuthService authService, ILogger<AuthController> logger) : ControllerBase
 {
     private readonly IAuthService _authService = authService;
@@ -35,6 +36,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     }
 
     [HttpPost("register")]
+    //[DisableRateLimiting]  // Disable rate limiting for this endpoint
     public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
         var result = await _authService.RegisterAsync(request, cancellationToken);
@@ -74,13 +76,4 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
 
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
-
-    [HttpGet("test")]
-    [EnableRateLimiting("sliding")]
-    public IActionResult Test()
-    {
-        Thread.Sleep(6000);
-        return Ok();
-    }
-    
 }
