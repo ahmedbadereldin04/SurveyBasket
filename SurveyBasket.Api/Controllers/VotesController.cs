@@ -3,6 +3,7 @@
 [Route("api/polls/{pollId}/vote")]
 [ApiController]
 [Authorize(Roles =DefaultRoles.Member)]
+[EnableRateLimiting(RateLimiters.ConcurrencyLimiter)]
 public class VotesController(IQuestionService questionService, IVoteService voteService) : ControllerBase
 {
     private readonly IQuestionService _questionService = questionService;
