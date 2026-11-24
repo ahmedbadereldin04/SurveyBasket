@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Infrastructure.Common.Consts;
-
-namespace SurveyBasket.Infrastructure.Persistence.Configurations;
+﻿namespace SurveyBasket.Infrastructure.Persistence.Configurations;
 
 public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
 {

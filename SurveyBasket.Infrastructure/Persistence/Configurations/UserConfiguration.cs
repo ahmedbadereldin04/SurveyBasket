@@ -22,10 +22,10 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
         builder.HasData(new ApplicationUser
         {
             Id = DefaultUsers.AdminId,
-            FirstName = "Admin",
-            LastName = "Ahmed",
-            UserName = DefaultUsers.AdminEmail,
-            NormalizedUserName = DefaultUsers.AdminEmail.ToUpper(),
+            FirstName = "Ahmed",
+            LastName = "Badereldin",
+            UserName = DefaultUsers.AdminUserName,
+            NormalizedUserName = DefaultUsers.AdminUserName.ToUpper(),
             Email = DefaultUsers.AdminEmail,
             NormalizedEmail = DefaultUsers.AdminEmail.ToUpper(),
             SecurityStamp = DefaultUsers.AdminSecurityStamp,

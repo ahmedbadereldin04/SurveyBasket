@@ -400,17 +400,17 @@ namespace SurveyBasket.Infrastructure.Migrations
                             ConcurrencyStamp = "01a1e0d3-8664-7b16-a125-a4aba9c38324",
                             Email = "adminbadereldin@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Admin",
+                            FirstName = "Ahmed",
                             IsDisabled = false,
-                            LastName = "Ahmed",
+                            LastName = "Badereldin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINBADERELDIN@GMAIL.COM",
-                            NormalizedUserName = "ADMINBADERELDIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
                             PasswordHash = "AQAAAAIAAYagAAAAEMszMUwLPJEJzdJRvp0K87tgYO1yqo51S/q6wK+4xRgtfwUT7ZNhxDf2rm3VsIRfTQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "04D4DEA288FA44C9B9FD41F6E95B377C",
                             TwoFactorEnabled = false,
-                            UserName = "adminbadereldin@gmail.com"
+                            UserName = "admin"
                         });
                 });
 
