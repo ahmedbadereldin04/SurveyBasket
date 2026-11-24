@@ -27,7 +27,6 @@ global using SurveyBasket.Application.Interfaces;
 global using SurveyBasket.Application.Contracts.Polls;
 global using SurveyBasket.Application;
 global using SurveyBasket.Application.Common.Results;
-global using SurveyBasket.Application.Common.Errors;
 global using SurveyBasket.Application.Contracts.Questions;
 global using SurveyBasket.Application.Contracts.Votes;
 global using SurveyBasket.Application.Contracts.Users;

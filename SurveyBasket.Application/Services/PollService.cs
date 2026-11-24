@@ -1,5 +1,3 @@
-using Hangfire;
-
 namespace SurveyBasket.Application.Services;
 
 public class PollService(IApplicationDbContext context,
