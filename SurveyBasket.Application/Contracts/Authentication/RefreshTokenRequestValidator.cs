@@ -1,8 +1,8 @@
 ﻿namespace SurveyBasket.Application.Contracts.Authentication;
 
-public class RefreshTokenRequsetValidator : AbstractValidator<RefreshTokenRequset>
+public class RefreshTokenRequestValidator : AbstractValidator<RefreshTokenRequest>
 {
-    public RefreshTokenRequsetValidator()
+    public RefreshTokenRequestValidator()
     {
         RuleFor(x => x.Token)
             .NotEmpty();

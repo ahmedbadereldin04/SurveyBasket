@@ -1,8 +1,10 @@
-﻿namespace SurveyBasket.Application.Common.Errors;
+﻿using Microsoft.AspNetCore.Diagnostics;
 
-public class GlobalExecptionHandler(ILogger<GlobalExecptionHandler> logger) : IExceptionHandler
+namespace SurveyBasket.Api.Exceptions;
+
+public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger _logger = logger;
+    private readonly ILogger<GlobalExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
