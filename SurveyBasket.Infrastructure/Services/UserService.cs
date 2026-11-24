@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Infrastructure.Common.Consts;
-
-namespace SurveyBasket.Infrastructure.Services;
+﻿namespace SurveyBasket.Infrastructure.Services;
 
 public class UserService(UserManager<ApplicationUser> userManager,
     IRoleService roleService,
@@ -41,7 +39,7 @@ public class UserService(UserManager<ApplicationUser> userManager,
                 .ToListAsync(cancellationToken);
         
 
-    public async Task<Result<UserResponse>> GetAsync([FromRoute] string id)
+    public async Task<Result<UserResponse>> GetAsync(string id)
     {
         if (await _userManager.FindByIdAsync(id) is not { } user)
             return Result.Failure<UserResponse>(UserErrors.UserNotFound);
@@ -59,7 +57,7 @@ public class UserService(UserManager<ApplicationUser> userManager,
         return Result.Success(response);
     }
     
-    public async Task<Result<UserResponse>> AddAsync([FromBody] CreateUserRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<UserResponse>> AddAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
     {
         var emailIsExists = await _userManager.Users.AnyAsync(x => x.Email == request.Email, cancellationToken);
 
@@ -89,7 +87,7 @@ public class UserService(UserManager<ApplicationUser> userManager,
         return Result.Failure<UserResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
-    public async Task<Result> UpdateAsync([FromRoute] string id,[FromBody] UpdateUserRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result> UpdateAsync(string id,UpdateUserRequest request, CancellationToken cancellationToken = default)
     {
         var emailIsExists = await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id !=id, cancellationToken);
 
@@ -124,7 +122,7 @@ public class UserService(UserManager<ApplicationUser> userManager,
         return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
-    public async Task<Result> ToggleStatus([FromRoute] string id)
+    public async Task<Result> ToggleStatus(string id)
     {
         if (await _userManager.FindByIdAsync(id) is not { } user)
             return Result.Failure(UserErrors.UserNotFound);
@@ -141,7 +139,7 @@ public class UserService(UserManager<ApplicationUser> userManager,
         return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
-    public async Task<Result> Unlock([FromRoute] string id)
+    public async Task<Result> Unlock(string id)
     {
         if (await _userManager.FindByIdAsync(id) is not { } user)
             return Result.Failure(UserErrors.UserNotFound);

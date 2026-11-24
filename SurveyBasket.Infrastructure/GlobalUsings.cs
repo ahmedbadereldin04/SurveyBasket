@@ -45,6 +45,7 @@ global using SurveyBasket.Infrastructure.Options;
 global using SurveyBasket.Infrastructure.Persistence;
 global using SurveyBasket.Infrastructure.Services;
 global using SurveyBasket.Infrastructure.Helpers;
+global using SurveyBasket.Infrastructure.Common.Consts;
 
 
 

@@ -12,7 +12,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     [HttpPost("")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Logging with email: {Email} and password: {Password}", request.Email, request.Password);
+        _logger.LogInformation("Logging with email: {Email}", request.Email);
 
         var result = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
