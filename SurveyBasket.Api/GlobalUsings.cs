@@ -20,6 +20,7 @@ global using SurveyBasket.Api.Extensions;
 global using SurveyBasket.Api.Configurations;
 global using SurveyBasket.Api.Filters;
 global using SurveyBasket.Api.Health;
+global using SurveyBasket.Api.Common.Consts;
 
 global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Interfaces;
@@ -36,3 +37,4 @@ global using SurveyBasket.Application.Contracts.Common;
 
 global using SurveyBasket.Infrastructure;
 global using SurveyBasket.Infrastructure.Options;
+global using SurveyBasket.Infrastructure.Common.Consts;

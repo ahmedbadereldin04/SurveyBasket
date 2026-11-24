@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Common.Consts;
+﻿namespace SurveyBasket.Api.Common.Consts;
 
 public static class RateLimiters
 {

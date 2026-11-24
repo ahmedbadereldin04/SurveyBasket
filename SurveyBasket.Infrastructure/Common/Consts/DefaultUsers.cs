@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Common.Consts;
+﻿namespace SurveyBasket.Infrastructure.Common.Consts;
 
 public static class DefaultUsers
 {

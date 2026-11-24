@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Infrastructure.Services;
+﻿using SurveyBasket.Infrastructure.Common.Consts;
+
+namespace SurveyBasket.Infrastructure.Services;
 
 public class AuthService(UserManager<ApplicationUser> userManager,
     SignInManager<ApplicationUser> signInManager,
