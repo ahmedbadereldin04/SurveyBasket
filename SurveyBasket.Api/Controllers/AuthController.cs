@@ -76,7 +76,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     }
 
     [HttpGet("test")]
-    [EnableRateLimiting("fixed")]
+    [EnableRateLimiting("sliding")]
     public IActionResult Test()
     {
         Thread.Sleep(6000);
