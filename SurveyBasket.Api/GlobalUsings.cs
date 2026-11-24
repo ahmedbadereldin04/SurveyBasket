@@ -1,9 +1,12 @@
-﻿global using MailKit.Net.Smtp;
-global using MailKit.Security;
-global using Serilog;
+﻿global using Serilog;
 global using Hangfire;
+global using MailKit.Net.Smtp;
+global using MailKit.Security;
 global using HangfireBasicAuthenticationFilter;
+global using HealthChecks.UI.Client;
 
+global using Microsoft.AspNetCore.RateLimiting;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
@@ -11,6 +14,7 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 global using System.Security.Claims;
+global using System.Threading.RateLimiting;
 
 global using SurveyBasket.Api.Extensions;
 global using SurveyBasket.Api.Configurations;

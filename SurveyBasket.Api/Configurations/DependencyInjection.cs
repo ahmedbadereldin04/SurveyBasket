@@ -22,8 +22,13 @@ public static class DependencyInjection
         services.AddExceptionHandler<GlobalExecptionHandler>();
         services.AddProblemDetails();
 
+
         // Health Checks ─────────────────────────────────────────────────────────
         services.AddHealthChecksConfig(config);
+
+
+        // Rate Limiting ─────────────────────────────────────────────────────────
+        services.AddRateLimiterConfig(config);
 
 
         // Permissions ─────────────────────────────────────────────────────────
@@ -101,6 +106,22 @@ public static class DependencyInjection
             .AddHangfire(options => { options.MinimumAvailableServers = 1; })
             .AddCheck<MailProviderHealthCheck>("mail service");
             
+        return services;
+    }
+
+    private static IServiceCollection AddRateLimiterConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddRateLimiter(rateLimiterOptions =>
+        {
+            rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            rateLimiterOptions.AddConcurrencyLimiter("concurrency" , options =>
+            {
+                options.PermitLimit = 2;
+                options.QueueLimit = 1;
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+            });
+        });
 
         return services;
     }

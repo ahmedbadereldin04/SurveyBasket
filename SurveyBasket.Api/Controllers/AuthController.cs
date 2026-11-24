@@ -74,5 +74,13 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
 
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
+
+    [HttpGet("test")]
+    [EnableRateLimiting("concurrency")]
+    public IActionResult Test()
+    {
+        Thread.Sleep(6000);
+        return Ok();
+    }
     
 }

@@ -1,69 +1,61 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+var builder = WebApplication.CreateBuilder(args);
 
-public partial class Program
+// Register Application and Infrastructure services
+builder.Services.AddInfrastructure(builder.Configuration)
+    .AddApi(builder.Configuration)
+    .AddApplication();
+
+// Configure application logging with Serilog
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration)
+);
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    private static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-        // Register Application and Infrastructure services
-        builder.Services.AddInfrastructure(builder.Configuration)
-            .AddApi(builder.Configuration)
-            .AddApplication();
+app.UseSerilogRequestLogging();
 
-        // Configure application logging with Serilog
-        builder.Host.UseSerilog((context, configuration) =>
-            configuration.ReadFrom.Configuration(context.Configuration)
-        );
+app.UseExceptionHandler();
 
-        var app = builder.Build();
+app.UseHttpsRedirection();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseSerilogRequestLogging();
-
-        app.UseExceptionHandler();
-
-        app.UseHttpsRedirection();
-
-        app.UseHangfireDashboard("/jobs", new DashboardOptions
-        {
-            Authorization = [
-                new HangfireCustomBasicAuthenticationFilter
+app.UseHangfireDashboard("/jobs", new DashboardOptions
+{
+    Authorization = [
+        new HangfireCustomBasicAuthenticationFilter
         {
             User = app.Configuration.GetValue<string>("HangfireSettings:UserName"),
             Pass = app.Configuration.GetValue<string>("HangfireSettings:Password")
         }
-            ],
-            DashboardTitle = "Survey Basket Dashboard",
-            //IsReadOnlyFunc = (DashboardContext context) => true
-        });
+    ],
+    DashboardTitle = "Survey Basket Dashboard",
+    //IsReadOnlyFunc = (DashboardContext context) => true
+});
 
-        var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-        using var scope = scopeFactory.CreateScope();
-        var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using var scope = scopeFactory.CreateScope();
+var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
 
-        RecurringJob.AddOrUpdate("SendNewPollsNotification", () => notificationService.SendNewPollsNotification(null), Cron.Daily());
+RecurringJob.AddOrUpdate("SendNewPollsNotification", () => notificationService.SendNewPollsNotification(null), Cron.Daily());
 
-        app.UseCors();
+app.UseCors();
 
-        app.UseAuthentication();
+app.UseAuthentication();
 
-        app.UseAuthorization();
+app.UseAuthorization();
 
-        app.MapControllers();
+app.MapControllers();
 
-        app.MapHealthChecks("health", new HealthCheckOptions
-        {
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        });
+app.UseRateLimiter();
 
-        app.Run();
-    }
-}
+app.MapHealthChecks("health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.Run();
