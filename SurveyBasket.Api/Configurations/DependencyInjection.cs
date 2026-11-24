@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Api.Configurations;
+﻿using SurveyBasket.Api.Exceptions;
+
+namespace SurveyBasket.Api.Configurations;
 
 public static class DependencyInjection
 {
@@ -19,7 +21,7 @@ public static class DependencyInjection
 
 
         // Exception Handler ─────────────────────────────────────────────────────────
-        services.AddExceptionHandler<GlobalExecptionHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
 

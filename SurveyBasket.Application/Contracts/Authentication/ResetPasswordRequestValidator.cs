@@ -13,7 +13,7 @@ public class ResetPasswordRequestValidator : AbstractValidator<ResetPasswordRequ
 
         RuleFor(x => x.NewPassword)
             .NotEmpty()
-            .Matches(RegexPattrens.Password)
+            .Matches(RegexPatterns.Password)
             .WithMessage("Password should be at least 8 digits and should contains Lowercase, NonAlphanumeric and Uppercase");
     }
 }

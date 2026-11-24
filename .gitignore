@@ -1,5 +1,9 @@
-.vs/ 
-**/bin/ 
-**/obj/ 
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 /AGENTS.md
 /SQLQuery2.sql

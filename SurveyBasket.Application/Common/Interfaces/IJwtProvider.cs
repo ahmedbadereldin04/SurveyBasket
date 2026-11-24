@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Interfaces;
+﻿namespace SurveyBasket.Application.Common.Interfaces;
 
 public interface IJwtProvider
 {

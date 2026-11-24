@@ -1,3 +1,5 @@
+using SurveyBasket.Application.Common.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Register Application and Infrastructure services

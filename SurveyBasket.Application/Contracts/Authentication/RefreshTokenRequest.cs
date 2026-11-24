@@ -1,6 +1,6 @@
 ﻿namespace SurveyBasket.Application.Contracts.Authentication;
 
-public record RefreshTokenRequset
+public record RefreshTokenRequest
 (
     string Token,
     string RefreshToken
