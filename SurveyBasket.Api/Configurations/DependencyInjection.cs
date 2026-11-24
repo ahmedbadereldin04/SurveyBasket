@@ -115,18 +115,25 @@ public static class DependencyInjection
         {
             rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            //rateLimiterOptions.AddPolicy("ipLimit", httpContext => 
-            //    RateLimitPartition.GetFixedWindowLimiter(
-            //        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
-            //        factory: _ => new FixedWindowRateLimiterOptions
-            //        {
-            //            PermitLimit = 2,
-            //            Window = TimeSpan.FromSeconds(30)
-            //        }
-            //    )
-            //);
+            rateLimiterOptions.AddConcurrencyLimiter(RateLimiters.ConcurrencyLimiter, options =>
+            {
+                options.PermitLimit = 2;
+                options.QueueLimit = 1;
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+            });
 
-            rateLimiterOptions.AddPolicy("userLimit", httpContext => 
+            rateLimiterOptions.AddPolicy(RateLimiters.IpLimiter, httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 2,
+                        Window = TimeSpan.FromSeconds(30)
+                    }
+                )
+            );
+
+            rateLimiterOptions.AddPolicy(RateLimiters.UserLimiter, httpContext =>
                 RateLimitPartition.GetFixedWindowLimiter(
                     partitionKey: httpContext.User.GetUserId(),
                     factory: _ => new FixedWindowRateLimiterOptions
@@ -137,12 +144,6 @@ public static class DependencyInjection
                 )
             );
 
-            //rateLimiterOptions.AddConcurrencyLimiter("concurrency" , options =>
-            //{
-            //    options.PermitLimit = 2;
-            //    options.QueueLimit = 1;
-            //    options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-            //});
 
             //rateLimiterOptions.AddTokenBucketLimiter("token", options =>
             //{
@@ -170,6 +171,7 @@ public static class DependencyInjection
             //    options.QueueLimit = 1;
             //    options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
             //});
+
         });
 
         return services;
