@@ -115,9 +115,20 @@ public static class DependencyInjection
         {
             rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            rateLimiterOptions.AddPolicy("ipLimit", httpContext => 
+            //rateLimiterOptions.AddPolicy("ipLimit", httpContext => 
+            //    RateLimitPartition.GetFixedWindowLimiter(
+            //        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+            //        factory: _ => new FixedWindowRateLimiterOptions
+            //        {
+            //            PermitLimit = 2,
+            //            Window = TimeSpan.FromSeconds(30)
+            //        }
+            //    )
+            //);
+
+            rateLimiterOptions.AddPolicy("userLimit", httpContext => 
                 RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+                    partitionKey: httpContext.User.GetUserId(),
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = 2,
