@@ -5,7 +5,6 @@ global using MailKit.Net.Smtp;
 global using MailKit.Security;
 global using Hangfire;
 
-global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
