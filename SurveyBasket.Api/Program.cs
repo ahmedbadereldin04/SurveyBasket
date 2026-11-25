@@ -1,5 +1,3 @@
-using SurveyBasket.Application.Common.Interfaces;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Register Application and Infrastructure services
@@ -48,12 +46,12 @@ RecurringJob.AddOrUpdate("SendNewPollsNotification", () => notificationService.S
 app.UseCors();
 
 app.UseAuthentication();
-
+      
 app.UseAuthorization();
+ 
+app.UseRateLimiter();
 
 app.MapControllers();
-
-app.UseRateLimiter();
 
 app.MapHealthChecks("health", new HealthCheckOptions
 {

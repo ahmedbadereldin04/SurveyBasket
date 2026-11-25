@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Api.Exceptions;
-
-namespace SurveyBasket.Api.Configurations;
+﻿namespace SurveyBasket.Api.Configurations;
 
 public static class DependencyInjection
 {
@@ -10,28 +8,25 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddEndpointsApiExplorer();
 
-
         // Add Swagger Configurations ─────────────────────────────────────────────────────────
         services
             .AddSwaggerConfig(config);
 
-
         // CORS ─────────────────────────────────────────────────────────
         services.AddCORSConfig(config);
-
 
         // Exception Handler ─────────────────────────────────────────────────────────
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
-
         // Health Checks ─────────────────────────────────────────────────────────
         services.AddHealthChecksConfig(config);
-
 
         // Rate Limiting ─────────────────────────────────────────────────────────
         services.AddRateLimiterConfig(config);
 
+        // API Versioning ─────────────────────────────────────────────────────────
+        services.AddApiVersioningConfig();
 
         // Permissions ─────────────────────────────────────────────────────────
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -176,6 +171,24 @@ public static class DependencyInjection
 
         });
 
+        return services;
+    }
+
+    private static IServiceCollection AddApiVersioningConfig(this IServiceCollection services)
+    {
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1);
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+
+            options.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
+        })
+        .AddApiExplorer(options=>
+        {
+            options.GroupNameFormat = "'v'V";
+            options.SubstituteApiVersionInUrl = true;
+        });
         return services;
     }
 }

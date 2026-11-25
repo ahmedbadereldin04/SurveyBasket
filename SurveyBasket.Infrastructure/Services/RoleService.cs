@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿namespace SurveyBasket.Infrastructure.Services;
 
-namespace SurveyBasket.Infrastructure.Services;
-
-public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbContext context) : IRoleService
+public class RoleService(RoleManager<ApplicationRole> roleManager, ApplicationDbContext context) : IRoleService
 {
     private readonly RoleManager<ApplicationRole> _roleManager = roleManager;
     private readonly ApplicationDbContext _context = context;
@@ -13,7 +11,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
             .ProjectToType<RoleResponse>()
             .ToListAsync(cancellationToken);
 
-    public async Task<Result<RoleDetailsResponse>> GetAsync([FromRoute] string id)
+    public async Task<Result<RoleDetailsResponse>> GetAsync(string id)
     {
         if (await _roleManager.FindByIdAsync(id) is not { } role)
             return Result.Failure<RoleDetailsResponse>(RoleErrors.RoleNotFound);
@@ -25,7 +23,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
         return Result.Success(response);
     }
 
-    public async Task<Result<RoleDetailsResponse>> AddAsync([FromBody] RoleRequest request)
+    public async Task<Result<RoleDetailsResponse>> AddAsync(RoleRequest request)
     {
         var roleIsExists = await _roleManager.RoleExistsAsync(request.Name);
 
@@ -67,7 +65,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
 
         return Result.Failure<RoleDetailsResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
-    public async Task<Result> UpdateAsync([FromRoute] string id,[FromBody] RoleRequest request)
+    public async Task<Result> UpdateAsync(string id,RoleRequest request)
     {
         var roleIsExists = await _roleManager.Roles.AnyAsync(x => x.Name == request.Name && x.Id != id);
 
@@ -118,7 +116,7 @@ public class RoleService(RoleManager<ApplicationRole> roleManager,ApplicationDbC
         return Result.Failure<RoleDetailsResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
     }
 
-    public async Task<Result> ToggleStatusAsync([FromRoute] string id)
+    public async Task<Result> ToggleStatusAsync(string id)
     {
         if (await _roleManager.FindByIdAsync(id) is not { } role)
             return Result.Failure<RoleDetailsResponse>(RoleErrors.RoleNotFound);
