@@ -1,10 +1,14 @@
 ﻿global using Serilog;
 global using Hangfire;
 global using Asp.Versioning;
+global using System.Reflection;
 global using MailKit.Net.Smtp;
 global using MailKit.Security;
-global using HangfireBasicAuthenticationFilter;
 global using HealthChecks.UI.Client;
+global using Asp.Versioning.ApiExplorer;
+global using Swashbuckle.AspNetCore.SwaggerGen;
+global using HangfireBasicAuthenticationFilter;
+global using Swashbuckle.AspNetCore.Annotations;
 
 global using Microsoft.AspNetCore.RateLimiting;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -13,9 +17,12 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
 global using Microsoft.Extensions.Options;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 global using System.Security.Claims;
 global using System.Threading.RateLimiting;
+global using System.Text.Json;
 
 global using SurveyBasket.Api.Extensions;
 global using SurveyBasket.Api.Configurations;
@@ -23,6 +30,7 @@ global using SurveyBasket.Api.Filters;
 global using SurveyBasket.Api.Health;
 global using SurveyBasket.Api.Common.Consts;
 global using SurveyBasket.Api.Exceptions;
+global using SurveyBasket.Api.Swagger;
 
 global using SurveyBasket.Application.Contracts.Authentication;
 global using SurveyBasket.Application.Interfaces;
