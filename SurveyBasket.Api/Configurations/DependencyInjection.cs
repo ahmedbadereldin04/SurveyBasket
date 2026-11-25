@@ -35,51 +35,23 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddSwaggerConfig(this IServiceCollection services,IConfiguration configuration)
+    private static IServiceCollection AddSwaggerConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSwaggerGen(c =>
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "WiseGrader System",
-                Version = "v1",
-                Description = "WiseGrader Management System",
-                Contact = new OpenApiContact
-                {
-                    Name = "WiseGrader"
-                }
-            });
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT",
-                In = ParameterLocation.Header,
-                Description = "Enter your JWT token"
-            });
-
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-
+            options.OperationFilter<SwaggerDefaultValues>();
         });
+               
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
         return services;
     }
-
+        
+     
     private static IServiceCollection AddCORSConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddCors(options =>
